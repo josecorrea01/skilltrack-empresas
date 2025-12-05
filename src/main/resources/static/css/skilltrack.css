@@ -1,0 +1,32 @@
+/* src/main/resources/static/css/skilltrack.css */
+
+/* Espacio para que la navbar no tape el contenido */
+body {
+    padding-top: 70px;
+    background-color: #f8f9fa;
+}
+
+/* Marca */
+.navbar-brand {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Tablas */
+.table thead th {
+    text-align: center;
+}
+
+/* Footer */
+.app-footer {
+    margin-top: 3rem;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    color: #6c757d;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Boton principal de acciones */
+.btn-main-action {
+    min-width: 180px;
+}
