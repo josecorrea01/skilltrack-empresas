@@ -7,11 +7,11 @@
     <title>Detalle empresa · SkillTrack</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS (CDN) -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
 
-    <!-- Tus estilos -->
+    <!-- Estilos propios -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/skilltrack.css"/>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -37,7 +37,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active"
+                    <a class="nav-link active" aria-current="page"
                        href="${pageContext.request.contextPath}/empresas">
                         Empresas
                     </a>
@@ -49,20 +49,11 @@
 
 <main class="flex-fill py-4">
     <div class="container">
-        <div class="mb-3">
-            <a href="<c:url value='/empresas' />" class="btn btn-link">
-                &laquo; Volver al listado
-            </a>
-        </div>
+        <h1 class="h3 mb-3 mt-2">Detalle de empresa</h1>
 
         <div class="card shadow-sm">
             <div class="card-body">
-                <h1 class="h4 mb-3">Detalle de empresa</h1>
-
-                <dl class="row">
-                    <dt class="col-sm-3">ID</dt>
-                    <dd class="col-sm-9">${empresa.idEmpresa}</dd>
-
+                <dl class="row mb-0">
                     <dt class="col-sm-3">Nombre</dt>
                     <dd class="col-sm-9">${empresa.nombre}</dd>
 
@@ -72,12 +63,17 @@
                     <dt class="col-sm-3">Ciudad</dt>
                     <dd class="col-sm-9">${empresa.ciudad}</dd>
 
-                    <dt class="col-sm-3">Email contacto</dt>
+                    <dt class="col-sm-3">Email de contacto</dt>
                     <dd class="col-sm-9">${empresa.emailContacto}</dd>
                 </dl>
-
-                <!-- Espacio para futuras acciones (editar, ver cursos, etc.) -->
             </div>
+        </div>
+
+        <div class="mt-3">
+            <a class="btn btn-secondary"
+               href="${pageContext.request.contextPath}/empresas">
+                Volver al listado
+            </a>
         </div>
     </div>
 </main>
@@ -88,7 +84,7 @@
     </div>
 </footer>
 
-<!-- Bootstrap JS -->
+<!-- Bootstrap JS (bundle con Popper) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

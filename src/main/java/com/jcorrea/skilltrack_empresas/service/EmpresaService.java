@@ -2,10 +2,10 @@ package com.jcorrea.skilltrack_empresas.service;
 
 import com.jcorrea.skilltrack_empresas.model.Empresa;
 import com.jcorrea.skilltrack_empresas.repository.EmpresaRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmpresaService {
@@ -16,13 +16,29 @@ public class EmpresaService {
         this.empresaRepository = empresaRepository;
     }
 
+    /**
+     * Listar todas las empresas.
+     */
     public List<Empresa> listarTodas() {
         return empresaRepository.findAll();
     }
 
-    public Empresa buscarPorId(Integer idEmpresa) {
-        return empresaRepository.findById(idEmpresa)
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Empresa no encontrada con id " + idEmpresa));
+    /**
+     * Buscar una empresa por su ID.
+     */
+    public Optional<Empresa> buscarPorId(Integer id) {
+        return empresaRepository.findById(id);
+    }
+
+    /**
+     * Buscar empresas por texto (nombre o rubro).
+     * Si el texto viene vacío o nulo, devuelve todas.
+     */
+    public List<Empresa> buscarPorTexto(String texto) {
+        if (texto == null || texto.isBlank()) {
+            return listarTodas();
+        }
+        return empresaRepository
+                .findByNombreContainingIgnoreCaseOrRubroContainingIgnoreCase(texto, texto);
     }
 }
