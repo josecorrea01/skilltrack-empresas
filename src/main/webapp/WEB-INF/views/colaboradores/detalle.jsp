@@ -4,10 +4,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Detalle empresa · SkillTrack</title>
+    <title>Detalle colaborador · SkillTrack</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS (CDN) -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
 
@@ -31,7 +31,7 @@
         <div class="collapse navbar-collapse" id="navbarSkilltrack">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page"
+                    <a class="nav-link"
                        href="${pageContext.request.contextPath}/">
                         Inicio
                     </a>
@@ -43,7 +43,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"
+                    <a class="nav-link active" aria-current="page"
                        href="${pageContext.request.contextPath}/colaboradores">
                         Colaboradores
                     </a>
@@ -55,29 +55,35 @@
 
 <main class="flex-fill py-4">
     <div class="container">
-        <h1 class="h3 mb-3 mt-2">Detalle de empresa</h1>
+        <h1 class="h3 mb-3 mt-2">Detalle de colaborador</h1>
 
         <div class="card shadow-sm">
             <div class="card-body">
                 <dl class="row mb-0">
+                    <dt class="col-sm-3">ID</dt>
+                    <dd class="col-sm-9">${colaborador.idColaborador}</dd>
+
                     <dt class="col-sm-3">Nombre</dt>
-                    <dd class="col-sm-9">${empresa.nombre}</dd>
+                    <dd class="col-sm-9">
+                        ${colaborador.nombre}
+                    </dd>
 
-                    <dt class="col-sm-3">Rubro</dt>
-                    <dd class="col-sm-9">${empresa.rubro}</dd>
+                    <dt class="col-sm-3">Email</dt>
+                    <dd class="col-sm-9">${colaborador.email}</dd>
 
-                    <dt class="col-sm-3">Ciudad</dt>
-                    <dd class="col-sm-9">${empresa.ciudad}</dd>
-
-                    <dt class="col-sm-3">Email de contacto</dt>
-                    <dd class="col-sm-9">${empresa.emailContacto}</dd>
+                    <dt class="col-sm-3">Empresa</dt>
+                    <dd class="col-sm-9">
+                        <c:if test="${not empty colaborador.empresa}">
+                            ${colaborador.empresa.nombre}
+                        </c:if>
+                    </dd>
                 </dl>
             </div>
         </div>
 
         <div class="mt-3">
             <a class="btn btn-secondary"
-               href="${pageContext.request.contextPath}/empresas">
+               href="${pageContext.request.contextPath}/colaboradores">
                 Volver al listado
             </a>
         </div>
@@ -90,7 +96,7 @@
     </div>
 </footer>
 
-<!-- Bootstrap JS (bundle con Popper) -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

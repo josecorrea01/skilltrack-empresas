@@ -4,10 +4,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Empresas · SkillTrack</title>
+    <title>Colaboradores · SkillTrack</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS (CDN) -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
 
@@ -31,7 +31,7 @@
         <div class="collapse navbar-collapse" id="navbarSkilltrack">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page"
+                    <a class="nav-link"
                        href="${pageContext.request.contextPath}/">
                         Inicio
                     </a>
@@ -43,7 +43,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"
+                    <a class="nav-link active" aria-current="page"
                        href="${pageContext.request.contextPath}/colaboradores">
                         Colaboradores
                     </a>
@@ -55,59 +55,22 @@
 
 <main class="flex-fill py-4">
     <div class="container">
-        <!-- Título + botón (placeholder) -->
         <div class="d-flex justify-content-between align-items-center mb-3 mt-2">
-            <h1 class="h3 mb-0">Empresas asociadas</h1>
+            <h1 class="h3 mb-0">Colaboradores</h1>
             <button class="btn btn-secondary btn-sm" disabled>
-                Nueva empresa (próximamente)
+                Nuevo colaborador (próximamente)
             </button>
         </div>
 
-        <!-- Buscador + total -->
-        <div class="row mb-3">
-            <div class="col-md-8">
-                <form class="row g-2" method="get"
-                      action="${pageContext.request.contextPath}/empresas">
-                    <div class="col-sm-8 col-md-9">
-                        <input type="text"
-                               class="form-control"
-                               name="q"
-                               placeholder="Buscar por nombre o rubro..."
-                               value="${consulta != null ? consulta : ''}">
-                    </div>
-                    <div class="col-sm-4 col-md-3 d-grid d-sm-flex">
-                        <button type="submit" class="btn btn-primary me-sm-2 mb-2 mb-sm-0">
-                            Buscar
-                        </button>
-                        <a class="btn btn-outline-secondary"
-                           href="${pageContext.request.contextPath}/empresas">
-                            Limpiar
-                        </a>
-                    </div>
-                </form>
-            </div>
+        <p class="text-muted">
+            Total: ${totalColaboradores} colaborador
+            <c:if test="${totalColaboradores != 1}">es</c:if>
+        </p>
 
-            <div class="col-md-4 text-md-end mt-2 mt-md-0">
-                <span class="text-muted">
-                    Total: ${totalEmpresas} empresa
-                    <c:if test="${totalEmpresas != 1}">s</c:if>
-                </span>
-            </div>
-        </div>
-
-        <!-- Listado -->
         <c:choose>
-            <c:when test="${empty empresas}">
+            <c:when test="${empty colaboradores}">
                 <div class="alert alert-info">
-                    <c:choose>
-                        <c:when test="${not empty consulta}">
-                            No se encontraron empresas para
-                            "<strong>${consulta}</strong>".
-                        </c:when>
-                        <c:otherwise>
-                            No hay empresas registradas en el sistema.
-                        </c:otherwise>
-                    </c:choose>
+                    No hay colaboradores registrados en el sistema.
                 </div>
             </c:when>
             <c:otherwise>
@@ -117,23 +80,28 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Rubro</th>
-                            <th scope="col">Ciudad</th>
-                            <th scope="col">Email contacto</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Empresa</th>
                             <th scope="col" class="text-center">Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="empresa" items="${empresas}" varStatus="st">
+                        <c:forEach var="colaborador" items="${colaboradores}" varStatus="st">
                             <tr>
                                 <th scope="row">${st.index + 1}</th>
-                                <td>${empresa.nombre}</td>
-                                <td>${empresa.rubro}</td>
-                                <td>${empresa.ciudad}</td>
-                                <td>${empresa.emailContacto}</td>
+                                <!-- Ajusta estos campos según tu entidad -->
+                                <td>
+                                        ${colaborador.nombre}
+                                </td>
+                                <td>${colaborador.email}</td>
+                                <td>
+                                    <c:if test="${not empty colaborador.empresa}">
+                                        ${colaborador.empresa.nombre}
+                                    </c:if>
+                                </td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-outline-primary"
-                                       href="${pageContext.request.contextPath}/empresas/${empresa.idEmpresa}">
+                                       href="${pageContext.request.contextPath}/colaboradores/${colaborador.idColaborador}">
                                         Ver detalle
                                     </a>
                                 </td>
@@ -154,7 +122,7 @@
     </div>
 </footer>
 
-<!-- Bootstrap JS (bundle con Popper) -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

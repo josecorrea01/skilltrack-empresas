@@ -42,7 +42,12 @@
                         Empresas
                     </a>
                 </li>
-                <!-- Más links después: colaboradores, cursos, etc. -->
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="${pageContext.request.contextPath}/colaboradores">
+                        Colaboradores
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -77,10 +82,16 @@
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <h2 class="h5 mb-3">Resumen del sistema</h2>
-                            <ul class="mb-0">
-                                <li>Empresas asociadas al programa.</li>
-                                <li>Colaboradores inscritos en cursos.</li>
-                                <li>Inscripciones y evaluaciones finales.</li>
+                            <ul class="list-unstyled mb-0">
+                                <li>
+                                    <strong>${totalEmpresas}</strong> empresas asociadas al programa.
+                                </li>
+                                <li>
+                                    <strong>${totalColaboradores}</strong> colaboradores inscritos en cursos.
+                                </li>
+                                <li>
+                                    Inscripciones y evaluaciones finales (módulos siguientes).
+                                </li>
                             </ul>
                         </div>
                     </div>
