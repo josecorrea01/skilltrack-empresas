@@ -89,63 +89,6 @@ INSERT INTO evaluacion (id_inscripcion, nota_final, observaciones) VALUES
                                                                        (3, 3.9, 'Debe reforzar contenidos'),
                                                                        (4, 5.5, 'Cumple expectativas');
 
--- ========================
--- Consultas ejemplo (rúbrica)
--- ========================
 
--- 1) SELECT de columnas específicas con JOIN
-SELECT
-    c.nombre    AS nombre_colaborador,
-    cu.nombre   AS nombre_curso,
-    cu.categoria,
-    i.estado
-FROM inscripcion i
-         JOIN colaborador c ON i.id_colaborador = c.id_colaborador
-         JOIN curso cu      ON i.id_curso = cu.id_curso;
-
--- 2) JOIN de 4 tablas
-SELECT
-    e.nombre     AS empresa,
-    c.nombre     AS colaborador,
-    cu.nombre    AS curso,
-    i.estado,
-    ev.nota_final
-FROM empresa e
-         JOIN colaborador c ON c.id_empresa = e.id_empresa
-         JOIN inscripcion i ON i.id_colaborador = c.id_colaborador
-         LEFT JOIN evaluacion ev ON ev.id_inscripcion = i.id_inscripcion;
-
--- 3) WHERE para filtrar por estado, categoría y empresa
-SELECT
-    c.nombre AS colaborador,
-    cu.nombre AS curso,
-    i.estado
-FROM inscripcion i
-         JOIN colaborador c ON i.id_colaborador = c.id_colaborador
-         JOIN curso cu      ON i.id_curso = cu.id_curso
-WHERE i.estado = 'APROBADO'
-  AND cu.categoria = 'Backend'
-  AND c.id_empresa = 1;
-
--- 4) ORDER BY por curso y fecha de inscripción
-SELECT
-    cu.nombre  AS curso,
-    c.nombre   AS colaborador,
-    i.estado,
-    i.fecha_inscripcion
-FROM inscripcion i
-         JOIN colaborador c ON i.id_colaborador = c.id_colaborador
-         JOIN curso cu      ON i.id_curso = cu.id_curso
-ORDER BY cu.nombre ASC, i.fecha_inscripcion DESC;
-
--- 5) GROUP BY con porcentaje de aprobación por curso
-SELECT
-    cu.nombre AS curso,
-    COUNT(*) AS total_inscripciones,
-    SUM(CASE WHEN i.estado = 'APROBADO' THEN 1 ELSE 0 END) AS total_aprobados,
-    ROUND(SUM(CASE WHEN i.estado = 'APROBADO' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2)
-        AS porcentaje_aprobacion
-FROM inscripcion i
-         JOIN curso cu ON i.id_curso = cu.id_curso
-GROUP BY cu.id_curso, cu.nombre
-ORDER BY porcentaje_aprobacion DESC;
+-- Fin de script de creación y carga de datos de ejemplo
+-- Para consultas de análisis, ver: docs/consultas.sql
