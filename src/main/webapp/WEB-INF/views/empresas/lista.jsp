@@ -55,12 +55,13 @@
 
 <main class="flex-fill py-4">
     <div class="container">
-        <!-- Título + botón (placeholder) -->
+        <!-- Título + botón -->
         <div class="d-flex justify-content-between align-items-center mb-3 mt-2">
             <h1 class="h3 mb-0">Empresas asociadas</h1>
-            <button class="btn btn-secondary btn-sm" disabled>
-                Nueva empresa (próximamente)
-            </button>
+            <a href="${pageContext.request.contextPath}/empresas/nueva"
+               class="btn btn-success btn-sm">
+                + Nueva empresa
+            </a>
         </div>
 
         <!-- Buscador + total -->

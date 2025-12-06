@@ -56,12 +56,12 @@
 <main class="flex-fill py-4">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3 mt-2">
-            <h1 class="h3 mb-0">Colaboradores</h1>
-            <button class="btn btn-secondary btn-sm" disabled>
-                Nuevo colaborador (próximamente)
-            </button>
+            <h1 class="h3 mb-0">Colaboradores registrados</h1>
+            <a href="${pageContext.request.contextPath}/colaboradores/nuevo"
+               class="btn btn-success btn-sm">
+                + Nuevo colaborador
+            </a>
         </div>
-
         <p class="text-muted">
             Total: ${totalColaboradores} colaborador
             <c:if test="${totalColaboradores != 1}">es</c:if>

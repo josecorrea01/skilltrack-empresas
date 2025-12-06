@@ -41,4 +41,11 @@ public class EmpresaService {
         return empresaRepository
                 .findByNombreContainingIgnoreCaseOrRubroContainingIgnoreCase(texto, texto);
     }
+
+    /**
+     * Guardar una empresa nueva o actualizar una existente.
+     */
+    public Empresa guardar(Empresa empresa) {
+        return empresaRepository.save(empresa);
+    }
 }

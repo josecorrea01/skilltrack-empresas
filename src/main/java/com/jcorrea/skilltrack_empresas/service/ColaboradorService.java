@@ -20,7 +20,15 @@ public class ColaboradorService {
         return colaboradorRepository.findAll();
     }
 
-    public Optional<Colaborador> buscarPorId(Integer id) {
+    public Optional<Colaborador> buscarPorId(Long id) {
         return colaboradorRepository.findById(id);
+    }
+
+    public Colaborador guardar(Colaborador colaborador) {
+        return colaboradorRepository.save(colaborador);
+    }
+
+    public void eliminarPorId(Long id) {
+        colaboradorRepository.deleteById(id);
     }
 }
