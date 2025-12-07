@@ -1,6 +1,17 @@
--- ===========================================
--- Script de Base de Datos - SkillTrack Empresas
--- ===========================================
+-- =============================================================
+-- SkillTrack Empresas - Script principal de Base de Datos
+-- Archivo: docs/bd/script.sql
+-- -------------------------------------------------------------
+-- Este script:
+--   1) Crea la base de datos `skilltrack` (si no existe).
+--   2) Crea las tablas principales del dominio:
+--      - empresa
+--      - colaborador
+--      - curso
+--      - inscripcion
+--      - evaluacion
+--   3) Inserta datos de ejemplo para pruebas locales.
+
 
 CREATE DATABASE IF NOT EXISTS skilltrack
     CHARACTER SET utf8mb4

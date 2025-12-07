@@ -105,9 +105,11 @@
         <div class="container">
             <h2 class="h4 mb-3">Próximos pasos</h2>
             <p class="mb-0">
-                Desde este panel se habilitarán vistas para listar empresas,
-                cursos, inscripciones y evaluaciones, según los requerimientos
-                de la evaluación del módulo.
+                Desde este panel podrás gestionar las empresas que participan en los
+                programas de capacitación y sus colaboradores, visualizar sus datos
+                principales y realizar búsquedas rápidas. Este módulo forma parte del
+                proyecto final del bootcamp y se complementa con un servicio REST y
+                consultas SQL avanzadas para reportes y análisis.
             </p>
         </div>
     </section>
