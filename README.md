@@ -10,6 +10,7 @@ La solución incluye:
 - **API REST** de apoyo para empresas y colaboradores.
 - **Script de base de datos completo** (creación de esquema, tablas, datos de ejemplo y consultas avanzadas).
 - **Módulo de lógica de reportes** con pruebas unitarias **JUnit 5**.
+- **Deploy en Railway** con perfil `railway` (H2 en memoria + datos iniciales).
 
 ---
 
@@ -21,6 +22,7 @@ La solución incluye:
 - Construir una pequeña API **RESTful**.
 - Incorporar un mini módulo de **lógica + tests unitarios** para demostrar manejo de bucles, condiciones y pruebas automatizadas.
 - Entregar un proyecto listo para ser presentado en un **portafolio profesional**.
+- Practicar el **deploy en la nube** (Railway) con perfiles y bases de datos distintos a local.
 
 ---
 
@@ -31,8 +33,11 @@ La solución incluye:
   - Spring Web (Spring MVC)
   - Spring Data JPA
 - **Vista:** JSP, JSTL, Bootstrap 5
-- **Base de datos:** MySQL 8
+- **Base de datos:**
+  - **Base de datos:** MySQL 8
+  - **H2 en memoria** (perfil `railway` / deploy en Railway)
 - **Build:** Maven (con wrapper `mvnw`)
+- **Empaquetado:** **WAR ejecutable** (compatibilidad con JSP en producción y Railway)
 - **Testing:** JUnit 5
 - **Servidor embebido:** Tomcat 10 (embebido en Spring Boot)
 
@@ -196,6 +201,144 @@ Requisitos previos:
       `http://localhost:8080/`
 
 ---
+##  Ejecución local simulando Railway (perfil `railway` + H2)
+
+Para simular el entorno de Railway en tu máquina:
+
+1. Asegúrate de tener `src/main/resources/application-railway.properties` con la siguiente config base:
+
+   ```properties
+   spring.profiles.active=railway
+
+   server.port=${PORT:8080}
+
+   # BD H2 en memoria
+   spring.datasource.url=jdbc:h2:mem:skilltrack;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+   spring.datasource.driver-class-name=org.h2.Driver
+   spring.datasource.username=sa
+   spring.datasource.password=
+
+   # JPA + datos iniciales
+   spring.jpa.hibernate.ddl-auto=create
+   spring.jpa.defer-datasource-initialization=true
+   spring.sql.init.mode=always
+   spring.sql.init.data-locations=classpath:data-railway.sql
+
+   # JSP
+   spring.mvc.view.prefix=/WEB-INF/views/
+   spring.mvc.view.suffix=.jsp
+   ```
+
+2. Compilar el proyecto:
+
+   ```bash
+   mvn clean package -DskipTests
+   ```
+
+3. Ejecutar el WAR con el perfil `railway`:
+
+   ```bash
+   java -jar target/skilltrack-empresas-0.0.1-SNAPSHOT.war --spring.profiles.active=railway
+   ```
+
+4. Probar en el navegador:
+
+    - `http://localhost:8080/health` → debe responder algo como:  
+      `SkillTrack Empresas OK - perfil railway`
+    - `http://localhost:8080/`
+    - `http://localhost:8080/empresas`
+    - `http://localhost:8080/colaboradores`
+
+---
+
+##  Deploy en Railway
+
+El proyecto **Skilltrack-Empresas** está desplegado en Railway usando:
+
+- **Spring Boot 3.3.0**
+- **Java 21**
+- **JSP + JSTL** como motor de vistas
+- **H2 en memoria** para el perfil `railway`
+- Empaquetado como **WAR ejecutable**
+
+###  URL de producción
+
+- App en Railway:  
+  `https://skilltrack-empresas-production.up.railway.app`
+- Endpoint de salud:  
+  `https://skilltrack-empresas-production.up.railway.app/health`
+
+###  Configuración en Railway (resumen)
+
+- **Repositorio:** GitHub `josecorrea01/skilltrack-empresas`
+- **Build command:**
+
+  ```bash
+  mvn -DskipTests package
+  ```
+
+- **Start command:**
+
+  ```bash
+  java -jar target/skilltrack-empresas-0.0.1-SNAPSHOT.war
+  ```
+
+- **Variables de entorno:**
+
+    - `SPRING_PROFILES_ACTIVE=railway`
+
+###  Vistas JSP en modo WAR
+
+Las vistas JSP se encuentran en:
+
+```text
+src/main/webapp/WEB-INF/views/
+    index.jsp
+    empresas/
+    colaboradores/
+    api/
+```
+
+La configuración de vistas (también en `application-railway.properties`):
+
+```properties
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+```
+
+###  Datos iniciales en Railway (H2)
+
+Script de datos iniciales para H2 (`src/main/resources/data-railway.sql`):
+
+```sql
+-- Datos de ejemplo para H2 (perfil railway)
+
+INSERT INTO empresa (nombre, rubro, ciudad, email_contacto) VALUES
+    ('TechCorp', 'Desarrollo de Software', 'Santiago',   'rrhh@techcorp.cl'),
+    ('DataPlus', 'Análisis de Datos',      'Valparaíso', 'contacto@dataplus.cl');
+
+INSERT INTO colaborador (nombre, rut, email, cargo, id_empresa) VALUES
+    ('Ana Pérez',   '11.111.111-1', 'ana.perez@techcorp.cl',   'Backend Trainee', 1),
+    ('Luis Soto',   '22.222.222-2', 'luis.soto@techcorp.cl',   'QA',              1),
+    ('Carla Díaz',  '33.333.333-3', 'carla.diaz@dataplus.cl',  'Data Trainee',    2);
+
+INSERT INTO curso (nombre, categoria, nivel, duracion_horas) VALUES
+    ('Java Backend Inicial', 'Backend', 'Inicial',    40),
+    ('Fundamentos de SQL',   'Datos',   'Inicial',    24),
+    ('Testing Automatizado', 'QA',      'Intermedio', 32);
+
+INSERT INTO inscripcion (id_colaborador, id_curso, fecha_inscripcion, estado) VALUES
+    (1, 1, DATE '2025-01-10', 'APROBADO'),
+    (1, 2, DATE '2025-02-01', 'EN_CURSO'),
+    (2, 3, DATE '2025-01-15', 'REPROBADO'),
+    (3, 2, DATE '2025-01-20', 'APROBADO');
+
+INSERT INTO evaluacion (id_inscripcion, nota_final, observaciones) VALUES
+    (1, 6.0, 'Buen desempeño'),
+    (3, 3.9, 'Debe reforzar contenidos'),
+    (4, 5.5, 'Cumple expectativas');
+
+```
 
 ##  Funcionalidades principales (Web MVC)
 
@@ -355,7 +498,8 @@ skilltrack-empresas/
 │
 ├─ src/main/resources/
 │  ├─ application-example.properties
-│  └─ (application.properties - ignorado en Git)
+│  ├─ application-railway.properties
+│  └─ data-railway.sql
 │
 ├─ pom.xml
 └─ README.md
@@ -491,11 +635,84 @@ Pruebas unitarias y build del proyecto con Maven:
   ![mvn test OK](docs/capturas/mvn_test_ok.png)
 
 ---
+### Evidencias del deploy en Railway
+
+A continuación se presentan las evidencias del despliegue de la aplicación en Railway.
+
+**1. Dashboard del servicio en Railway**
+
+Muestra el servicio `skilltrack-empresas` en estado `Running` y el último deploy registrado.
+
+![Railway - Dashboard del servicio](docs/capturas/railway_01_dashboard.png)
+
+---
+
+**2. Configuración de Build y Start Command**
+
+Se ve la configuración utilizada por Railway para construir y ejecutar la aplicación:
+
+- Build command: `mvn -DskipTests package`
+- Start command: `java -jar target/skilltrack-empresas-0.0.1-SNAPSHOT.war`
+
+![Railway - Build y Start Command](docs/capturas/railway_02_build_start.png)
+
+---
+
+**3. Variables de entorno (SPRING_PROFILES_ACTIVE=railway)**
+
+Evidencia de que la aplicación se ejecuta con el perfil `railway` en producción, usando H2 en memoria y la configuración correspondiente.
+
+![Railway - Variables de entorno](docs/capturas/railway_03_env_vars.png)
+
+---
+
+**4. Logs de arranque con perfil `railway` activo**
+
+Se observan las líneas de log donde:
+
+- Se indica que el perfil activo es `railway`.
+- Se inicializa Tomcat en el puerto 8080.
+- Se crea la conexión a la base de datos H2 en memoria (`jdbc:h2:mem:skilltrack`).
+
+![Railway - Logs de arranque](docs/capturas/railway_04_logs_arranque.png)
+
+---
+
+**5. Home de la aplicación en producción (`/`)**
+
+Captura de la página de inicio desplegada en Railway:
+
+- URL: `https://skilltrack-empresas-production.up.railway.app/`
+
+![Railway - Home en producción](docs/capturas/railway_05_home.png)
+
+---
+
+**6. Listado de empresas en producción (`/empresas`)**
+
+Listado de empresas cargado desde la base de datos H2 de Railway, utilizando el script de datos iniciales `data-railway.sql`.
+
+- URL: `https://skilltrack-empresas-production.up.railway.app/empresas`
+
+![Railway - Listado de empresas](docs/capturas/railway_06_empresas.png)
+
+---
+
+**7. Endpoint de salud `/health` en producción**
+
+Evidencia del endpoint de salud que confirma que la aplicación está levantada y que se está ejecutando con el perfil correcto.
+
+- URL: `https://skilltrack-empresas-production.up.railway.app/health`
+
+![Railway - Endpoint /health](docs/capturas/railway_07_health.png)
+---
 ## Estado del proyecto
 
 - **Tipo:** Proyecto educativo / demostrativo (no orientado a producción).
 - **Contexto:** Evaluación técnica y portafolio del Bootcamp Fullstack Java (Skillnest / Talento Digital), módulo 7.
-- **Entorno probado:** Windows 10, IntelliJ IDEA, MySQL 8, JDK 17+.
+- **Entorno probado:**
+    - Local: Windows 10, IntelliJ IDEA, MySQL 8, JDK 17+.
+    - Nube: Railway (Java 21, Spring Boot 3, H2 en memoria, WAR ejecutable).
 
 ##  Mejoras futuras
 
@@ -504,7 +721,8 @@ Algunas ideas de evolución del proyecto:
 - Agregar autenticación y roles (ADMIN / USER) con Spring Security.
 - Incorporar paginación y ordenamiento en las tablas de empresas y colaboradores.
 - Añadir más endpoints REST (crear/actualizar/eliminar) siguiendo buenas prácticas RESTful.
-- Mejorar el módulo de reportes para calcular estadísticas directamente desde la BD (con consultas JPA/SQL).
+- Mejorar el módulo de reportes para calcular estadísticas directamente desde la BD (consultas JPA/SQL).
+- Migrar la base de datos de producción de H2 a MySQL gestionado en la nube.
 
 ---
 
