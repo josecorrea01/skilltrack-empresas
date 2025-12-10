@@ -705,6 +705,13 @@ Evidencia del endpoint de salud que confirma que la aplicación está levantada 
 - URL: `https://skilltrack-empresas-production.up.railway.app/health`
 
 ![Railway - Endpoint /health](docs/capturas/railway_07_health.png)
+
+
+## Video tutorial técnico
+
+- **Título:** Tutorial técnico SkillTrack-Empresas – Java, Spring Boot, JSP, MySQL y deploy en Railway
+- **Enlace YouTube (no listado):** https://youtu.be/Q79a4HWbkOw
+
 ---
 ## Estado del proyecto
 
