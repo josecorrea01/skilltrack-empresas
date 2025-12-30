@@ -11,6 +11,7 @@ La solución incluye:
 - **Script de base de datos completo** (creación de esquema, tablas, datos de ejemplo y consultas avanzadas).
 - **Módulo de lógica de reportes** con pruebas unitarias **JUnit 5**.
 - **Deploy en Railway** con perfil `railway` (H2 en memoria + datos iniciales).
+- **NOTA:** Demo en Railway (Serverless): puede demorar la primera carga y la data se reinicia porque H2 es en memoria.
 
 ---
 
