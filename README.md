@@ -269,6 +269,25 @@ El proyecto **Skilltrack-Empresas** está desplegado en Railway usando:
 - Endpoint de salud:  
   `https://skilltrack-empresas-production.up.railway.app/health`
 
+
+
+
+> ⚠️ **Nota sobre el despliegue**  
+> Este proyecto se encuentra desplegado en Railway utilizando el plan gratuito.  
+> Debido a las limitaciones de recursos del contenedor para aplicaciones Java, el servicio puede presentar intermitencias ocasionales o una primera carga más lenta de lo habitual.
+>
+> En cualquier caso, el repositorio incluye documentación técnica, capturas y video demostrativo del funcionamiento completo del sistema.
+
+
+
+## Video tutorial técnico
+
+- **Título:** Tutorial técnico SkillTrack-Empresas – Java, Spring Boot, JSP, MySQL y deploy en Railway
+- **Enlace YouTube (no listado):** https://youtu.be/Q79a4HWbkOw
+
+
+
+
 ###  Configuración en Railway (resumen)
 
 - **Repositorio:** GitHub `josecorrea01/skilltrack-empresas`
